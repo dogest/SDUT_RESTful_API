@@ -2,6 +2,10 @@
 
 一些有关于 SDUT 的 API 封装
 
+## Usage
+
+[API 文档](docs/api.md)
+
 ## TODO
 
 ### 需要登录的查询
@@ -28,4 +32,4 @@
 
 ### 不需要登录的查询
 
-- `/public/energy`
+- <del>`/public/energy`</del>
