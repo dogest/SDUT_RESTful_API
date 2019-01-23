@@ -75,21 +75,21 @@ async def do_search(session: aiohttp.ClientSession, floor: str, room: str):
     return rdata
 
 
-async def energy(session: aiohttp.ClientSession, floor: str, room: str):
+async def energy(floor: str, room: str):
     """
     查询宿舍剩余电量
-    Usage: energy(session, '06#', '627')
+    Usage: energy('06#', '627')
     """
-    await login(session)
+    async with aiohttp.ClientSession(loop=asyncio.get_event_loop()) as session:
+        await login(session)
+        data = await do_search(session, floor, room)
 
-    data = await do_search(session, floor, room)
     return data
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    session = aiohttp.ClientSession()
     tasks = [
-        asyncio.ensure_future(energy(session, '06#', '627'))
+        asyncio.ensure_future(energy('06#', '627'))
     ]
     loop.run_until_complete(asyncio.wait(tasks))
     loop.close()
