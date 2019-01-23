@@ -20,7 +20,6 @@ async def init(app, loop):
 @app.listener('after_server_stop')
 async def finish(app, loop):
     """ 关闭 """
-    pass
     loop.close()
 
 
