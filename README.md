@@ -10,9 +10,9 @@
 
 ### 需要登录的查询
 
-- `/user`
-  - `/user/token`
-  - `/user/info`
+- <del>`/user`</del>
+  - <del>`/user/token`</del>
+  - <del>`/user/info`</del>
 - `/library`
   - `/library/borrow`
 - `/card`
