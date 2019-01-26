@@ -3,6 +3,7 @@ from datetime import datetime
 
 import aiohttp
 from bs4 import BeautifulSoup
+from sanic.exceptions import Unauthorized
 
 
 async def login(session: aiohttp.ClientSession):
@@ -26,8 +27,8 @@ async def login(session: aiohttp.ClientSession):
 
     # 如果没有登录成功，则触发异常
     if f'欢迎您,刘大钰同学' not in text:
-        # TODO: raise 401 error
-        pass
+        raise Unauthorized(
+            message='用户名或学号错误！如果您见到这个报错，说明我们的内部账号出错，请联系项目作者以进行修改。')
 
 
 async def do_search(session: aiohttp.ClientSession, floor: str, room: str):

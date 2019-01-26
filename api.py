@@ -11,18 +11,6 @@ app = Sanic(__name__)
 app.blueprint(ex)
 
 
-@app.listener('before_server_start')
-async def init(app, loop):
-    """ 初始化 """
-    pass
-
-
-@app.listener('after_server_stop')
-async def finish(app, loop):
-    """ 关闭 """
-    loop.close()
-
-
 @app.route('/')
 async def index(request):
     return success(data={'Hello': 'World'})

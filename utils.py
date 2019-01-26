@@ -9,9 +9,9 @@ def success(**kwargs):
     return json(return_data)
 
 
-def error(**kwargs):
+def error(status=200, **kwargs):
     return_data = {
         'error': True
     }
     return_data.update(kwargs)
-    return json(return_data)
+    return json(return_data, status)
