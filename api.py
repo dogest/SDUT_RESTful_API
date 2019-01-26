@@ -40,6 +40,7 @@ async def index(request: Request):
 
 @app.route('/user/token', methods=['POST'])
 async def token(request: Request):
+    """ 登录，获取 cookies，创建 token，存入数据库并返回 """
     username = request.form.get('username')
     password = request.form.get('password')
 
