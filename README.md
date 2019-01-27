@@ -13,8 +13,8 @@
 - <del>`/user`</del>
   - <del>`/user/token`</del>
   - <del>`/user/info`</del>
-- `/library`
-  - `/library/borrow`
+- <del>`/library`</del>
+  - <del>`/library/borrow`</del>
 - `/card`
   - `/card/balance`
   - `/card/consume`
