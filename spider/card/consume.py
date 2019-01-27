@@ -1,7 +1,8 @@
 import aiohttp
 from bs4 import BeautifulSoup
-from spider.ehall.auth_ehall import auth_ehall
+
 from spider.card.auth_card import auth_card
+from spider.ehall.auth_ehall import auth_ehall
 
 
 async def consume(cookies: dict, userid: str):

@@ -10,12 +10,12 @@ from sanic.request import Request
 from sanic.response import json
 
 from exception import ex
+from spider.card import balance, consume, summary
 from spider.ehall import auth_ehall
 from spider.ehall.auth_server import auth_server, auth_server_dump_cookies
 from spider.library.borrow import borrow
 from spider.public.energy import energy
-from spider.card import consume, balance
-from utils import success, error
+from utils import error, success
 
 app = Sanic(__name__)
 
@@ -111,6 +111,20 @@ async def card_consume(request: Request):
     consume_data = await consume.consume(cookies, userid)
 
     return success(consume=consume_data)
+
+
+@app.route('/card/summary', methods=['POST'])
+async def card_summary(request: Request):
+    """ 返回用户校园卡交易汇总 """
+    cookies = await get_cookies(request)
+    userid = request.form.get('userid')
+    start_date = request.form.get('start_date')
+    end_date = request.form.get('end_date')
+    if not userid:
+        return error(message='请提供 userid!')
+    summary_data = await summary.summary(cookies, userid, start_date, end_date)
+
+    return success(summary=summary_data)
 
 
 @app.route('/public/energy', methods=['POST'])

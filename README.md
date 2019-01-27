@@ -15,10 +15,10 @@
   - <del>`/user/info`</del>
 - <del>`/library`</del>
   - <del>`/library/borrow`</del>
-- `/card`
+- <del>`/card`</del>
   - <del>`/card/balance`</del>
   - <del>`/card/consume`</del>
-  - `/card/summary`
+  - <del>`/card/summary`</del>
 - `/dormitory`
   - `/dormitory/info`
   - `/dormitory/health`

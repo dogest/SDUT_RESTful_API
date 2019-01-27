@@ -319,3 +319,121 @@ curl --request POST \
     ]
 }
 ```
+
+### Summary
+
+获取指定时间范围内的交易汇总（因为校园卡平台限制最多返回八条，因此可能不全，如果结果少于八条则为全部的。）
+
+**URL**
+
+`/card/summary`
+
+**请求类型**
+
+`POST`
+
+**请求参数**
+
+| 参数 | 类型 | 含义 |
+| ---- | ---- | - |
+| `token` | string | Token |
+| `userid` | string | 用户名（学号） |
+| `start_date` | string | 开始时间（YYYYmmdd） |
+| `end_date` | string | 结束时间 |
+
+
+**请求示例**
+
+```bash
+curl --request POST \
+  --url http://127.0.0.1:8000/card/summary \
+  --form 'token=<Token>' \
+  --form 'userid=15110570001' \
+  --form 'start_date=20180910' \
+  --form 'end_date=20190101'
+```
+
+**返回参数**
+
+| 字段    | 类型   | 含义  |
+| ------- | ------ | ----- |
+| `id` | string | 未知含义 |
+| `reason` | string | 交易原因 |
+| `amount` | string | 交易金额 |
+| `ext_1` | string | 未知用途，用于表示一个数字 |
+| `ext_2` | string | 同上 |
+| `ext_3` | string | 同上 |
+
+**返回示例**
+
+```json
+{
+    "error": false,
+    "summary": [
+        {
+            "id": "100",
+            "reason": "终端存款",
+            "amount": "463.50",
+            "ext_1": "0",
+            "ext_2": "0",
+            "ext_3": "0"
+        },
+        {
+            "id": "104",
+            "reason": "补助存款",
+            "amount": "0",
+            "ext_1": "0",
+            "ext_2": "300",
+            "ext_3": "0"
+        },
+        {
+            "id": "157",
+            "reason": "支付宝充值领款",
+            "amount": "1800",
+            "ext_1": "0",
+            "ext_2": "0",
+            "ext_3": "0"
+        },
+        {
+            "id": "210",
+            "reason": "餐费支出",
+            "amount": "1845.36",
+            "ext_1": "0",
+            "ext_2": "246.88",
+            "ext_3": "0"
+        },
+        {
+            "id": "211",
+            "reason": "淋浴支出",
+            "amount": "13.75",
+            "ext_1": "0",
+            "ext_2": "3.24",
+            "ext_3": "0"
+        },
+        {
+            "id": "215",
+            "reason": "商场购物",
+            "amount": "278.30",
+            "ext_1": "0",
+            "ext_2": "49.50",
+            "ext_3": "0"
+        },
+        {
+            "id": "220",
+            "reason": "用水支出",
+            "amount": "5.91",
+            "ext_1": "0",
+            "ext_2": "0.10",
+            "ext_3": "0"
+        },
+        {
+            "id": "222",
+            "reason": "购热水支出",
+            "amount": "3.83",
+            "ext_1": "0",
+            "ext_2": "0",
+            "ext_3": "0"
+        }
+    ]
+}
+```
