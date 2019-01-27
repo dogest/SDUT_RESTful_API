@@ -1,6 +1,6 @@
-# Public API 文档
+## Public
 
-## 电量查询接口
+### Energy
 
 **URL**
 
