@@ -1,5 +1,7 @@
-import aiohttp
 import json
+
+import aiohttp
+
 from spider.ehall.auth_ehall import auth_ehall
 
 
@@ -63,10 +65,10 @@ async def info(cookies: dict):
             text = await resp.text()
 
         rdata = json.loads(text)
-    campus = rdata['data']['XQMC']
-    floor = rdata['data']['SSLMC']
-    room = rdata['data']['FJH']
-    raw_floor = trans_floor(floor)
+        campus = rdata['data']['XQMC']
+        floor = rdata['data']['SSLMC']
+        room = rdata['data']['FJH']
+        raw_floor = trans_floor(floor)
 
     return {
         'campus': campus,

@@ -20,9 +20,9 @@
   - <del>`/card/consume`</del>
   - <del>`/card/summary`</del>
 - `/dormitory`
-  - `/dormitory/info`
-  - `/dormitory/health`
-  - `/dormitory/energy`
+  - <del>`/dormitory/info`</del>
+  - <del>`/dormitory/health`</del>
+  - <del>`/dormitory/energy`</del>(use `/public/energy`)
 - `/score`
   - `/score/detail`
   - `/score/grade`
