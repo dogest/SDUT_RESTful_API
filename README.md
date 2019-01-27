@@ -6,7 +6,26 @@
 
 [API 文档](docs/api.md)
 
+## Run Website
+
+```bash
+$ python3 -m venv venv
+$ source venv/bin/activate
+# 安装依赖包
+(venv)$ pip install -r requirements.txt
+
+(venv)$ python api.py
+```
+
+## Deploying
+
+```bash
+nohup gunicorn api:app --bind 0.0.0.0:8000 --worker-class sanic.worker.GunicornWorker --max-requests 1000 &
+```
+
 ## TODO
+
+因为有些学校网站只能在**内网**访问，因此 TODO 中 `score` 与 `course` 现在无法进行开发。
 
 ### 需要登录的查询
 

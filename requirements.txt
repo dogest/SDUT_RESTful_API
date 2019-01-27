@@ -10,6 +10,7 @@ beautifulsoup4==4.7.1
 bs4==0.0.1
 cchardet==2.1.4
 chardet==3.0.4
+gunicorn==19.9.0
 hiredis==1.0.0
 httptools==0.0.11
 idna==2.8
