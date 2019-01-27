@@ -11,6 +11,7 @@ from sanic.response import json
 
 from exception import ex
 from spider.card import balance, consume, summary
+from spider.dormitory import info as dorm_info
 from spider.ehall import auth_ehall
 from spider.ehall.auth_server import auth_server, auth_server_dump_cookies
 from spider.library.borrow import borrow
@@ -125,6 +126,15 @@ async def card_summary(request: Request):
     summary_data = await summary.summary(cookies, userid, start_date, end_date)
 
     return success(summary=summary_data)
+
+
+@app.route('/dormitory/info', methods=['POST'])
+async def dormitory_info(request: Request):
+    """ 返回用户宿舍基本信息 """
+    cookies = await get_cookies(request)
+    info_data = await dorm_info.info(cookies)
+
+    return success(**info_data)
 
 
 @app.route('/public/energy', methods=['POST'])
