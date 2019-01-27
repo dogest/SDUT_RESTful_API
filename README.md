@@ -19,7 +19,7 @@
   - <del>`/card/balance`</del>
   - <del>`/card/consume`</del>
   - <del>`/card/summary`</del>
-- `/dormitory`
+- <del>`/dormitory`</del>
   - <del>`/dormitory/info`</del>
   - <del>`/dormitory/health`</del>
   - <del>`/dormitory/energy`</del>(use `/public/energy`)
