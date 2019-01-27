@@ -16,8 +16,8 @@
 - <del>`/library`</del>
   - <del>`/library/borrow`</del>
 - `/card`
-  - `/card/balance`
-  - `/card/consume`
+  - <del>`/card/balance`</del>
+  - <del>`/card/consume`</del>
   - `/card/summary`
 - `/dormitory`
   - `/dormitory/info`

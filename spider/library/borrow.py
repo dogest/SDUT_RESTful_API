@@ -37,6 +37,8 @@ async def borrow_history(session: aiohttp.ClientSession):
     async with session.post('http://222.206.65.12/reader/book_hist.php', data=data) as resp:
         text = await resp.text()
 
+    if '您的该项记录为空' in text:
+        return []
     soup = BeautifulSoup(text, 'html.parser')
     table = soup.find('table')
     rdata = []

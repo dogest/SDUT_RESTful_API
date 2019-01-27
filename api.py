@@ -14,7 +14,8 @@ from spider.ehall import auth_ehall
 from spider.ehall.auth_server import auth_server, auth_server_dump_cookies
 from spider.library.borrow import borrow
 from spider.public.energy import energy
-from utils import success
+from spider.card import consume, balance
+from utils import success, error
 
 app = Sanic(__name__)
 
@@ -89,6 +90,27 @@ async def library_borrow(request: Request):
     borrow_data = await borrow(cookies)
 
     return success(info=borrow_data['info'], history=borrow_data['history'])
+
+
+@app.route('/card/balance', methods=['POST'])
+async def card_balance(request: Request):
+    """ 返回用户校园卡余额 """
+    cookies = await get_cookies(request)
+    balance_data = await balance.balance(cookies)
+
+    return success(**balance_data)
+
+
+@app.route('/card/consume', methods=['POST'])
+async def card_consume(request: Request):
+    """ 返回用户校园卡最近交易 """
+    cookies = await get_cookies(request)
+    userid = request.form.get('userid')
+    if not userid:
+        return error(message='请提供 userid!')
+    consume_data = await consume.consume(cookies, userid)
+
+    return success(consume=consume_data)
 
 
 @app.route('/public/energy', methods=['POST'])

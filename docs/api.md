@@ -189,3 +189,133 @@ curl --request POST \
     ]
 }
 ```
+
+## Card
+
+### Balance
+
+查询用户的校园卡余额
+
+**URL**
+
+`/card/balance`
+
+**请求类型**
+
+`POST`
+
+**请求参数**
+
+| 参数 | 类型 | 含义 |
+| ---- | ---- | - |
+| `token` | string | Token |
+
+
+**请求示例**
+
+```bash
+curl --request POST \
+  --url http://127.0.0.1:8000/card/balance \
+  --form 'token=<Token>'
+```
+
+**返回参数**
+
+| 字段    | 类型   | 含义  |
+| ------- | ------ | ----- |
+| `userid` | string | 用户名（学号） |
+| `name` | string | 用户姓名 |
+| `balance` | string | 校园卡余额 |
+
+**返回示例**
+
+```json
+{
+    "error": false,
+    "userid": "15110570001",
+    "name": "张三",
+    "balance": "30.40"
+}
+```
+
+### Consume
+
+用户最近的交易详情
+
+**URL**
+
+`/card/consume`
+
+**请求类型**
+
+`POST`
+
+**请求参数**
+
+| 参数 | 类型 | 含义 |
+| ---- | ---- | - |
+| `token` | string | Token |
+| `userid` | string | 用户名（学号） |
+
+
+**请求示例**
+
+```bash
+curl --request POST \
+  --url http://127.0.0.1:8000/card/consume \
+  --form 'token=<Token>' \
+  --form 'userid=15110570001'
+```
+
+**返回参数**
+
+| 字段    | 类型   | 含义  |
+| ------- | ------ | ----- |
+| `time` | string | 消费时间(YYYY-mm-dd HH:MM) |
+| `reason` | string | 消费原因 |
+| `amount` | string | 消费金额 |
+| `balance` | string | 消费后余额 |
+| `position` | string | 消费位置 |
+| `trem_name` | string | 消费终端 |
+
+**返回示例**
+
+```json
+{
+    "error": false,
+    "consume": [
+        {
+            "time": "2019-01-18 17:36",
+            "reason": "用水支出",
+            "amount": "0.13",
+            "balance": "32.46",
+            "position": "图书馆直饮水采集",
+            "term_name": "图书馆直饮水004"
+        },
+        {
+            "time": "2019-01-18 17:34",
+            "reason": "商场购物",
+            "amount": "6.50",
+            "balance": "32.59",
+            "position": "消费TCP采集",
+            "term_name": "图书馆咖啡厅"
+        },
+        {
+            "time": "2019-01-18 17:31",
+            "reason": "商场购物",
+            "amount": "7",
+            "balance": "39.09",
+            "position": "消费TCP采集",
+            "term_name": "图书馆文具店（西校）"
+        },
+        {
+            "time": "2019-01-18 17:27",
+            "reason": "商场购物",
+            "amount": "3",
+            "balance": "46.09",
+            "position": "消费TCP采集",
+            "term_name": "泰瑞文具"
+        }
+    ]
+}
+```
