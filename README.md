@@ -6,7 +6,7 @@
 
 [API 文档](docs/api.md)
 
-## Run Website
+## Run WebServer
 
 ```bash
 $ python3 -m venv venv
@@ -25,7 +25,7 @@ nohup gunicorn api:app --bind 0.0.0.0:8000 --worker-class sanic.worker.GunicornW
 
 ## TODO
 
-因为有些学校网站只能在**内网**访问，因此 TODO 中 `score` 与 `course` 现在无法进行开发。
+因为放假期间没有通知和作业以及课程表可以测试，因此 `course` 的功能暂缓开发。
 
 ### 需要登录的查询
 
@@ -42,9 +42,7 @@ nohup gunicorn api:app --bind 0.0.0.0:8000 --worker-class sanic.worker.GunicornW
   - <del>`/dormitory/info`</del>
   - <del>`/dormitory/health`</del>
   - <del>`/dormitory/energy`</del>(use `/public/energy`)
-- `/score`
-  - `/score/detail`
-  - `/score/grade`
+- <del>`/score`</del>
 - `/course`
   - `/course/schedule`
   - `/course/reminder`

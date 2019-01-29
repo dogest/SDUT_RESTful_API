@@ -13,6 +13,7 @@ from exception import ex
 from spider.card import balance, consume, summary
 from spider.dormitory import health as dorm_health
 from spider.dormitory import info as dorm_info
+from spider.score import score as stu_score
 from spider.ehall import auth_ehall
 from spider.ehall.auth_server import auth_server, auth_server_dump_cookies
 from spider.library.borrow import borrow
@@ -32,7 +33,7 @@ async def init(app, loop):
 
 @app.listener('after_server_stop')
 async def finish(app, loop):
-    loop.run_until_complete(app.config.redis.close())
+    # loop.run_until_complete(app.config.redis.close())
     await app.config.redis.wait_closed()
     loop.close()
 
@@ -123,7 +124,7 @@ async def card_summary(request: Request):
     start_date = request.form.get('start_date')
     end_date = request.form.get('end_date')
     if not userid:
-        return error(message='请提供 userid!')
+        return error(status=400, message='请提供 userid!')
     summary_data = await summary.summary(cookies, userid, start_date, end_date)
 
     return success(summary=summary_data)
@@ -145,6 +146,19 @@ async def dormitory_health(request: Request):
     health_data = await dorm_health.health(cookies)
 
     return success(health=health_data)
+
+
+@app.route('/score', methods=['POST'])
+async def score(request: Request):
+    """ 返回用户成绩与绩点 """
+    cookies = await get_cookies(request)
+
+    userid = request.form.get('userid')
+    if userid is None:
+        return error(status=400, message='请提供 userid!')
+    score_data = await stu_score.score(cookies, userid)
+
+    return success(**score_data)
 
 
 @app.route('/public/energy', methods=['POST'])
