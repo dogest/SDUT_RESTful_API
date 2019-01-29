@@ -12,5 +12,6 @@
 - [User](user_api.md)
 - [Library](library_api.md)
 - [Card](card_api.md)
+- [Dormitory](dormitory_api.md)
 - [Score](score_api.md)
 - [Public](public_api.md)
