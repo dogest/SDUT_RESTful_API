@@ -45,8 +45,32 @@ $ source venv/bin/activate
 
 ## Deploying
 
+### Gunicorn
+
 ```bash
 nohup gunicorn api:app --bind 0.0.0.0:8000 --worker-class sanic.worker.GunicornWorker --max-requests 1000 &
+```
+
+### Supervisor
+
+你需要先将配置写入 `/etc/supervisord.conf`：
+
+```conf
+[program:SDUT_RESTful_API]
+command=/path/to/SDUT_RESTful_API/venv/bin/gunicorn api:app --bind 0.0.0.0:8000 --worker-class sanic.worker.GunicornWorker --max-requests 1000
+directory=/path/to/SDUT_RESTful_API
+stdout_logfile=/path/to/SDUT_RESTful_API/stdout.log
+stderr_logfile=/path/to/SDUT_RESTful_API/stderr.log
+redirect_stderr=True
+environment=PRODUCTION=1
+```
+
+然后启动它：
+
+```bash
+$ sudo supervisorctl reread  # 如果这句执行失败的话，可以尝试重启 `sudo supervisord`
+$ sudo supervisorctl update
+$ sudo supervisorctl start SDUT_RESTful_API
 ```
 
 ## TODO
