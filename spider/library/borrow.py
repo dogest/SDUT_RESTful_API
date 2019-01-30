@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from sanic.exceptions import Unauthorized
 
 from spider.ehall.auth_ehall import auth_ehall
+from spider.ehall.auth_server import auth_server_load_cookies
 
 
 async def borrow_info(session: aiohttp.ClientSession):
@@ -63,7 +64,7 @@ async def borrow(cookies: dict):
     """ 获取用户图书借阅信息 """
     # 图书馆只能通过 IP 访问，因此这里要使用 Unsafe CookieJar
     async with aiohttp.ClientSession(cookie_jar=aiohttp.CookieJar(unsafe=True)) as session:
-        await auth_ehall(session, cookies)
+        auth_server_load_cookies(session, cookies)
 
         # 通过统一登录平台登录至图书馆
         async with session.get('http://authserver.sdut.edu.cn/authserver/login?service=http%3A%2F%2F222.206.65.12%2Freader%2Fhwthau.php') as resp:
