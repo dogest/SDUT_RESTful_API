@@ -14,4 +14,5 @@
 - [Card](card_api.md)
 - [Dormitory](dormitory_api.md)
 - [Score](score_api.md)
+- [Schedule](schedule.md)
 - [Public](public_api.md)

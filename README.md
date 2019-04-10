@@ -70,6 +70,7 @@ $ sudo supervisorctl start SDUT_RESTful_API
 - `/course`
   - `/course/schedule`
   - `/course/reminder`
+- <del>`/schedule`</del>
 
 ### 不需要登录的查询
 

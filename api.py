@@ -13,11 +13,13 @@ from exception import ex
 from spider.card import balance, consume, summary
 from spider.dormitory import health as dorm_health
 from spider.dormitory import info as dorm_info
-from spider.score import score as stu_score
+from spider.schedule.schedule import courses as schedule_courses
 from spider.ehall import auth_ehall
 from spider.ehall.auth_server import auth_server, auth_server_dump_cookies
+from spider.schedule.courses import courses
 from spider.library.borrow import borrow
 from spider.public.energy import energy
+from spider.score import score as stu_score
 from utils import error, success
 
 app = Sanic(__name__)
@@ -167,6 +169,17 @@ async def public_energy(request: Request):
     floor = request.form.get('floor')
     room = request.form.get('room')
     data = await energy(floor, room)
+    return success(data=data)
+
+
+@app.route('/schedule', methods=['POST'])
+async def schedule(request: Request):
+    """ 查询课程表 """
+    cookies = await get_cookies(request)
+    week_data = await courses(cookies)
+    year, _, semester = week_data['schoolYearTerm'].split('-')
+    data = await schedule_courses(cookies, year, semester)
+    data['current_week'] = week_data['weekOfTerm']
     return success(data=data)
 
 if __name__ == '__main__':
