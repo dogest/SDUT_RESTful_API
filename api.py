@@ -42,7 +42,7 @@ async def finish(app, loop):
 
 async def get_cookies(request: Request) -> dict:
     """ 通过 Token 获取 Cookies """
-    token = request.form.get('token')
+    token = request.form.get('token') or request.json.get('token')
 
     # 获取 cookies
     cookies_str = await app.config.redis.get(token)
@@ -60,8 +60,8 @@ async def index(request: Request):
 @app.route('/user/token', methods=['POST'])
 async def token(request: Request):
     """ 登录，获取 cookies，创建 token，存入数据库并返回 """
-    username = request.form.get('username')
-    password = request.form.get('password')
+    username = request.form.get('username') or request.json.get('username')
+    password = request.form.get('password') or request.json.get('password')
 
     async with aiohttp.ClientSession(loop=asyncio.get_event_loop()) as session:
         # 登录至 AuthServer，如果登录失败则会触发登录失败 401
@@ -110,7 +110,7 @@ async def card_balance(request: Request):
 async def card_consume(request: Request):
     """ 返回用户校园卡最近交易 """
     cookies = await get_cookies(request)
-    userid = request.form.get('userid')
+    userid = request.form.get('userid') or request.json.get('userid')
     if not userid:
         return error(message='请提供 userid!')
     consume_data = await consume.consume(cookies, userid)
@@ -122,9 +122,9 @@ async def card_consume(request: Request):
 async def card_summary(request: Request):
     """ 返回用户校园卡交易汇总 """
     cookies = await get_cookies(request)
-    userid = request.form.get('userid')
-    start_date = request.form.get('start_date')
-    end_date = request.form.get('end_date')
+    userid = request.form.get('userid') or request.json.get('userid')
+    start_date = request.form.get('start_date') or request.json.get('start_date')
+    end_date = request.form.get('end_date')  or request.json.get('end_date')
     if not userid:
         return error(status=400, message='请提供 userid!')
     summary_data = await summary.summary(cookies, userid, start_date, end_date)
@@ -155,7 +155,7 @@ async def score(request: Request):
     """ 返回用户成绩与绩点 """
     cookies = await get_cookies(request)
 
-    userid = request.form.get('userid')
+    userid = request.form.get('userid') or request.json.get('userid')
     if userid is None:
         return error(status=400, message='请提供 userid!')
     score_data = await stu_score.score(cookies, userid)
@@ -166,8 +166,8 @@ async def score(request: Request):
 @app.route('/public/energy', methods=['POST'])
 async def public_energy(request: Request):
     """ 查询电量 """
-    floor = request.form.get('floor')
-    room = request.form.get('room')
+    floor = request.form.get('floor') or request.json.get('floor')
+    room = request.form.get('room') or request.json.get('room')
     data = await energy(floor, room)
     return success(data=data)
 
