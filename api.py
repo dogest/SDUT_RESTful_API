@@ -79,6 +79,13 @@ async def token(request: Request):
     return success(token=token)
 
 
+@app.route('/user/token/exist', methods=['POST'])
+async def token_exist(request: Request):
+    """ 判断本地有没有 token """
+    cookies = await get_cookies(request)
+    return success(cookies=python_json.dumps(cookies))
+
+
 @app.route('/user/info', methods=['POST'])
 async def user_info(request: Request):
     """ 返回用户基本信息 """
@@ -123,8 +130,9 @@ async def card_summary(request: Request):
     """ 返回用户校园卡交易汇总 """
     cookies = await get_cookies(request)
     userid = request.form.get('userid') or request.json.get('userid')
-    start_date = request.form.get('start_date') or request.json.get('start_date')
-    end_date = request.form.get('end_date')  or request.json.get('end_date')
+    start_date = request.form.get(
+        'start_date') or request.json.get('start_date')
+    end_date = request.form.get('end_date') or request.json.get('end_date')
     if not userid:
         return error(status=400, message='请提供 userid!')
     summary_data = await summary.summary(cookies, userid, start_date, end_date)

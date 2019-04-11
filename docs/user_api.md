@@ -47,6 +47,45 @@ curl http://<url>/user/token --request POST --form 'username=<username>' --form 
 }
 ```
 
+### Exist
+
+判断指定的 Token 在服务器上是否还存在（存在不代表保证可用）。
+
+**URL**
+
+`/user/token/exists`
+
+**请求类型**
+
+`POST`
+
+**请求参数**
+
+| 参数 | 类型 | 含义 |
+| ---- | ---- | - |
+| `token` | string | Token |
+
+
+**请求示例**
+
+```bash
+curl http://<url>/user/token/exist --request POST --form 'token=<token>'
+```
+
+**返回参数**
+
+| 字段    | 类型   | 含义  |
+| ------- | ------ | ----- |
+| `token` | string | Token |
+
+**返回示例**
+
+```json
+{
+    "error": false,
+}
+```
+
 ### Info
 
 请求用户的基本信息。

@@ -55,6 +55,7 @@ $ sudo supervisorctl start SDUT_RESTful_API
 
 - <del>`/user`</del>
   - <del>`/user/token`</del>
+  - <del>`/user/token/exist`</del>
   - <del>`/user/info`</del>
 - <del>`/library`</del>
   - <del>`/library/borrow`</del>
