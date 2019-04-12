@@ -41,10 +41,12 @@ curl --request POST \
 ```json
 {
     "error": false,
-    "campus": "西校区",
-    "floor": "6号公寓",
-    "room": "6H101",
-    "raw_floor": "06#"
+    "data": {
+        "campus": "西校区",
+        "floor": "6号公寓",
+        "room": "6H101",
+        "raw_floor": "06#"
+    }
 }
 ```
 
@@ -90,7 +92,7 @@ curl --request POST \
 ```json
 {
     "error": false,
-    "health": [
+    "data": [
         {
             "floor": "6号公寓",
             "room": "6H101",

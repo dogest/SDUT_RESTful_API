@@ -125,7 +125,7 @@ curl http://<url>/user/info --request POST --form 'token=<token>'
 ```json
 {
     "error": false,
-    "user": {
+    "data": {
         "name": "张三",
         "userid": "15110570001",
         "department": "计算机科学与技术学院"

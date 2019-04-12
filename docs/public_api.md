@@ -27,7 +27,7 @@ curl http://<url>/public/energy --request POST --form 'floor=01#南' --form 'roo
 
 | 字段     | 类型   | 含义                                |
 | -------- | ------ | ----------------------------------- |
-| ` room`  | string | 请求的房间                          |
+| `room`  | string | 请求的房间                          |
 | `date`   | string | 上次更新时间(`YYYY-mm-dd HH:MM:SS`) |
 | `energy` | string | 剩余电量（结果不能保证为数字类型）  |
 | `lower`  | string | 预计可用下限                        |

@@ -57,26 +57,28 @@ curl --request POST \
 ```json
 {
     "error": false,
-    "info": [],
-    "history": [
-        {
-            "bar_code": "1957178",
-            "title": "ACM国际大学生程序设计竞赛:题目与解读",
-            "book_url": "http://222.206.65.12/opac/item.php?marc_no=0000616967",
-            "author": "俞勇主编",
-            "borrow_date": "2016-11-19",
-            "back_date": "2016-11-27",
-            "site": "逸夫馆三层西区"
-        },
-        {
-            "bar_code": "1554967",
-            "title": "洛丽塔",
-            "book_url": "http://222.206.65.12/opac/item.php?marc_no=0000428895",
-            "author": "弗拉基米尔·纳博科夫[著]",
-            "borrow_date": "2015-09-29",
-            "back_date": "2015-10-08",
-            "site": "逸夫馆二层西区"
-        }
-    ]
+    "data": {
+        "info": [],
+        "history": [
+            {
+                "bar_code": "1957178",
+                "title": "ACM国际大学生程序设计竞赛:题目与解读",
+                "book_url": "http://222.206.65.12/opac/item.php?marc_no=0000616967",
+                "author": "俞勇主编",
+                "borrow_date": "2016-11-19",
+                "back_date": "2016-11-27",
+                "site": "逸夫馆三层西区"
+            },
+            {
+                "bar_code": "1554967",
+                "title": "洛丽塔",
+                "book_url": "http://222.206.65.12/opac/item.php?marc_no=0000428895",
+                "author": "弗拉基米尔·纳博科夫[著]",
+                "borrow_date": "2015-09-29",
+                "back_date": "2015-10-08",
+                "site": "逸夫馆二层西区"
+            }
+        ]
+    }
 }
 ```
