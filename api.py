@@ -76,14 +76,14 @@ async def token(request: Request):
     await app.config.redis.setex(token, 7 * 24 * 60 * 60, cookies_str)
 
     # 返回 token
-    return success(token=token)
+    return success(data={'token': token})
 
 
 @app.route('/user/token/exist', methods=['POST'])
 async def token_exist(request: Request):
     """ 判断本地有没有 token """
     cookies = await get_cookies(request)
-    return success(cookies=python_json.dumps(cookies))
+    return success(data=python_json.dumps(cookies))
 
 
 @app.route('/user/info', methods=['POST'])
