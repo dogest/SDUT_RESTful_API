@@ -40,9 +40,11 @@ curl --request POST \
 ```json
 {
     "error": false,
-    "userid": "15110570001",
-    "name": "张三",
-    "balance": "30.40"
+    "data": {
+        "userid": "15110570001",
+        "name": "张三",
+        "balance": "30.40"
+    }
 }
 ```
 
@@ -91,7 +93,7 @@ curl --request POST \
 ```json
 {
     "error": false,
-    "consume": [
+    "data": [
         {
             "time": "2019-01-18 17:36",
             "reason": "用水支出",
@@ -177,7 +179,7 @@ curl --request POST \
 ```json
 {
     "error": false,
-    "summary": [
+    "data": [
         {
             "id": "100",
             "reason": "终端存款",

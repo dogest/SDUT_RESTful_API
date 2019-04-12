@@ -92,7 +92,7 @@ async def user_info(request: Request):
     cookies = await get_cookies(request)
     user_info_data = await auth_ehall.user_info(cookies)
 
-    return success(user=user_info_data)
+    return success(data=user_info_data)
 
 
 @app.route('/library/borrow', methods=['POST'])
@@ -101,7 +101,7 @@ async def library_borrow(request: Request):
     cookies = await get_cookies(request)
     borrow_data = await borrow(cookies)
 
-    return success(info=borrow_data['info'], history=borrow_data['history'])
+    return success(data={'info': borrow_data['info'], 'history': borrow_data['history']})
 
 
 @app.route('/card/balance', methods=['POST'])
@@ -110,7 +110,7 @@ async def card_balance(request: Request):
     cookies = await get_cookies(request)
     balance_data = await balance.balance(cookies)
 
-    return success(**balance_data)
+    return success(data=balance_data)
 
 
 @app.route('/card/consume', methods=['POST'])
@@ -122,7 +122,7 @@ async def card_consume(request: Request):
         return error(message='请提供 userid!')
     consume_data = await consume.consume(cookies, userid)
 
-    return success(consume=consume_data)
+    return success(data=consume_data)
 
 
 @app.route('/card/summary', methods=['POST'])
@@ -137,7 +137,7 @@ async def card_summary(request: Request):
         return error(status=400, message='请提供 userid!')
     summary_data = await summary.summary(cookies, userid, start_date, end_date)
 
-    return success(summary=summary_data)
+    return success(data=summary_data)
 
 
 @app.route('/dormitory/info', methods=['POST'])
@@ -146,7 +146,7 @@ async def dormitory_info(request: Request):
     cookies = await get_cookies(request)
     info_data = await dorm_info.info(cookies)
 
-    return success(**info_data)
+    return success(data=info_data)
 
 
 @app.route('/dormitory/health', methods=['POST'])
@@ -155,7 +155,7 @@ async def dormitory_health(request: Request):
     cookies = await get_cookies(request)
     health_data = await dorm_health.health(cookies)
 
-    return success(health=health_data)
+    return success(data=health_data)
 
 
 @app.route('/score', methods=['POST'])
@@ -168,7 +168,7 @@ async def score(request: Request):
         return error(status=400, message='请提供 userid!')
     score_data = await stu_score.score(cookies, userid)
 
-    return success(**score_data)
+    return success(data=score_data)
 
 
 @app.route('/public/energy', methods=['POST'])
