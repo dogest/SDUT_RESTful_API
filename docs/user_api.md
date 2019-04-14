@@ -76,7 +76,6 @@ curl http://<url>/user/token/exist --request POST --form 'token=<token>'
 
 | 字段    | 类型   | 含义  |
 | ------- | ------ | ----- |
-| `token` | string | Token |
 
 **返回示例**
 
