@@ -86,7 +86,7 @@ curl --request POST \
 | `amount` | string | 消费金额 |
 | `balance` | string | 消费后余额 |
 | `position` | string | 消费位置 |
-| `trem_name` | string | 消费终端 |
+| `term_name` | string | 消费终端 |
 
 **返回示例**
 
