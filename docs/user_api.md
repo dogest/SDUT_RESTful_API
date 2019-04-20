@@ -118,6 +118,8 @@ curl http://<url>/user/info --request POST --form 'token=<token>'
 | `name` | string | 用户的姓名 |
 | `userid` | string | 用户的学号 |
 | `department` | string | 用户的部门/学院 |
+| `floor` | string | 用户的宿舍楼 |
+| `room` | string | 用户的房间号 |
 
 **返回示例**
 
@@ -127,7 +129,9 @@ curl http://<url>/user/info --request POST --form 'token=<token>'
     "data": {
         "name": "张三",
         "userid": "15110570001",
-        "department": "计算机科学与技术学院"
+        "department": "计算机科学与技术学院",
+        "floor": "06#",
+        "room": "101"
     }
 }
 ```

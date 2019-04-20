@@ -1,7 +1,9 @@
 import json
+import re
 
 import aiohttp
 
+from spider.dormitory.info import trans_floor
 from spider.ehall.auth_ehall import auth_ehall
 
 
@@ -26,3 +28,17 @@ async def health(cookies: dict):
             }
             rlist.append(d)
     return rlist
+
+
+def get_dorm_info_by_health(health_list):
+    """ 从宿舍卫生信息中解析出用户的宿舍信息 """
+    data = {
+        'floor': '',
+        'room': '',
+    }
+    if len(health_list) == 0:
+        return data
+    item = health_list[0]
+    data['floor'] = trans_floor(item['floor'])
+    data['room'] = re.search(r'\d*$', item['room']).group()
+    return data

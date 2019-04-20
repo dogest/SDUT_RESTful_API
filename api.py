@@ -13,6 +13,7 @@ from exception import ex
 from spider.card import balance, consume, summary
 from spider.dormitory import health as dorm_health
 from spider.dormitory import info as dorm_info
+from spider.dormitory.health import get_dorm_info_by_health
 from spider.schedule.schedule import courses as schedule_courses
 from spider.ehall import auth_ehall
 from spider.ehall.auth_server import auth_server, auth_server_dump_cookies
@@ -91,6 +92,8 @@ async def user_info(request: Request):
     """ 返回用户基本信息 """
     cookies = await get_cookies(request)
     user_info_data = await auth_ehall.user_info(cookies)
+    health_data = await dorm_health.health(cookies)
+    user_info_data.update(get_dorm_info_by_health(health_data))
 
     return success(data=user_info_data)
 
