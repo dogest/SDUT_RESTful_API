@@ -1,5 +1,5 @@
 from sanic import Blueprint
-from sanic.exceptions import NotFound, Unauthorized, ServerError
+from sanic.exceptions import NotFound, Unauthorized, ServerError, Forbidden
 from sanic.response import json
 
 from utils import error, success
@@ -18,6 +18,10 @@ async def server_error(request, exception):
     """ 用于处理系统错误 """
     return error(message=f'{exception}', status=500)
 
+@ex.exception(Forbidden)
+async def forbidden(request, exception):
+    """ 处理权限错误 """
+    return error(message=f'{exception}', status=403)
 
 @ex.exception(NotFound)
 async def not_found(request, exception):
