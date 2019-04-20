@@ -171,6 +171,7 @@ async def score(request: Request):
     return success(data=score_data)
 
 
+@app.route('/dormitory/energy', methods=['POST'])
 @app.route('/public/energy', methods=['POST'])
 async def public_energy(request: Request):
     """ 查询电量 """

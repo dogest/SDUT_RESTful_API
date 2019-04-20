@@ -110,3 +110,11 @@ curl --request POST \
     ]
 }
 ```
+
+### Energy
+
+查询宿舍电量。[Energy](public_api.md#Energy) 接口的别名。
+
+**URL**
+
+`/dormitory/energy`
