@@ -1,6 +1,7 @@
 import asyncio
 import json as python_json
 import uuid
+from datetime import datetime
 
 import aiohttp
 import aioredis
@@ -14,12 +15,12 @@ from spider.card import balance, consume, summary
 from spider.dormitory import health as dorm_health
 from spider.dormitory import info as dorm_info
 from spider.dormitory.health import get_dorm_info_by_health
-from spider.schedule.schedule import courses as schedule_courses
 from spider.ehall import auth_ehall
 from spider.ehall.auth_server import auth_server, auth_server_dump_cookies
-from spider.schedule.courses import courses
 from spider.library.borrow import borrow
 from spider.public.energy import energy
+from spider.schedule.courses import courses
+from spider.schedule.schedule import courses as schedule_courses
 from spider.score import score as stu_score
 from utils import error, success
 
@@ -70,7 +71,8 @@ async def token(request: Request):
         cookies = auth_server_dump_cookies(session)
 
     # 生成 token
-    token = 'SDUTAPI_' + str(uuid.uuid4())
+    now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    token = f'SDUTAPI-{username}-{now}-' + str(uuid.uuid4())
     cookies_str = python_json.dumps(cookies)
 
     # 将 token 与 cookies 存入 redis，七天有效
