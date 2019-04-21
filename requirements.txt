@@ -2,4 +2,5 @@ aiodns
 aiohttp
 aioredis
 beautifulsoup4
+fake_useragent
 sanic
