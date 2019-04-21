@@ -1,5 +1,5 @@
 import aiohttp
-from sanic.exceptions import Unauthorized
+from sanic.exceptions import Forbidden, Unauthorized
 
 from spider.ehall.auth_server import auth_server, auth_server_load_cookies
 
@@ -11,6 +11,10 @@ async def auth_edu_manage(session: aiohttp.ClientSession, cookies: dict):
 
     async with session.get('http://210.44.191.125/jwglxt/jziotlogin') as resp:
         url = str(resp.url)
+        text = await resp.text()
+
+    if '当前登录用户不允许访问目标应用' in text:
+        raise Forbidden('当前登录用户不允许访问目标应用')
 
     if url.startswith('http://210.44.191.125/jwglxt/xtgl/index_initMenu.html'):
         return True
