@@ -64,6 +64,7 @@ async def token(request: Request):
     """ 登录，获取 cookies，创建 token，存入数据库并返回 """
     username = request.form.get('username') or request.json.get('username')
     password = request.form.get('password') or request.json.get('password')
+    x_referer = request.headers.get('X-Referer', 'Unknown')
 
     async with aiohttp.ClientSession(loop=asyncio.get_event_loop()) as session:
         # 登录至 AuthServer，如果登录失败则会触发登录失败 401
@@ -72,7 +73,7 @@ async def token(request: Request):
 
     # 生成 token
     now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    token = f'SDUTAPI-{username}-{now}-' + str(uuid.uuid4())
+    token = f'SDUTAPI-{x_referer}-{username}-{now}-' + str(uuid.uuid4())
     cookies_str = python_json.dumps(cookies)
 
     # 将 token 与 cookies 存入 redis，七天有效

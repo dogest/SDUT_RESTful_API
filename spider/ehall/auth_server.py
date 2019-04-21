@@ -2,8 +2,10 @@ import asyncio
 
 import aiohttp
 from bs4 import BeautifulSoup
-from sanic.exceptions import ServerError, Unauthorized, Forbidden
+from sanic.exceptions import Forbidden, ServerError, Unauthorized
 from yarl import URL
+
+from spider.ua import ua
 
 
 def auth_server_dump_cookies(session: aiohttp.ClientSession) -> dict:
@@ -33,6 +35,9 @@ async def auth_server(session: aiohttp.ClientSession, username: str, password: s
         'password': password,
         'rememberMe': 'on',  # 七天内记住我
     }
+    headers = {
+        'User-Agent': ua.random,
+    }
     for ipt in ipts:
         if ipt.get('value'):
             data[ipt.get('name')] = ipt.get('value')
@@ -40,7 +45,7 @@ async def auth_server(session: aiohttp.ClientSession, username: str, password: s
     # 提交登录
     # 山东理工大学统一登录平台有一处 Set-Cookie 错误，Python 没有对错误的格式进行兼容
     # 手动处理第一次跳转，处理格式兼容
-    async with session.post('http://authserver.sdut.edu.cn/authserver/login', data=data, allow_redirects=False) as resp:
+    async with session.post('http://authserver.sdut.edu.cn/authserver/login', data=data, headers=headers, allow_redirects=False) as resp:
         headers = resp.headers
 
         next_url = headers.get('Location')
