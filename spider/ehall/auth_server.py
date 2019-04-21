@@ -2,7 +2,7 @@ import asyncio
 
 import aiohttp
 from bs4 import BeautifulSoup
-from sanic.exceptions import ServerError, Unauthorized
+from sanic.exceptions import ServerError, Unauthorized, Forbidden
 from yarl import URL
 
 
@@ -66,6 +66,8 @@ async def auth_server(session: aiohttp.ClientSession, username: str, password: s
     # 若页面跳转回登录界面，则说明登录失败(用户名或密码错误)
     elif url == 'http://authserver.sdut.edu.cn/authserver/login':
         raise Unauthorized('用户名或密码错误')
+    elif url == 'http://authserver.sdut.edu.cn/authserver/pcImproveInfo.do':
+        raise Forbidden('需要修改初始密码后使用')
     else:
         raise ServerError('发生意料之外的错误，如果问题持续出现，请联系作者。')
 
