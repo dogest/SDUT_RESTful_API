@@ -2,6 +2,10 @@
 
 一些有关于 SDUT 的 API 封装
 
+## 官方微信小程序“抽空查询”已上线
+
+![抽空查询](inquire.jpg)
+
 ## Usage
 
 [API 文档](docs/api.md)
