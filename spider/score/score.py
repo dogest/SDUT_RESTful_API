@@ -19,7 +19,9 @@ def make_grade(score_data: list):
         course_id = item['course_id']
         point = float(item['point'])
         # 同样的课程只计算分数最高的一次
-        if 'course_id' not in unique_dict or unique_dict[course_id]['point'] < point:
+        if course_id not in unique_dict:
+            unique_dict[course_id] = item
+        if float(unique_dict[course_id]['point']) < point:
             unique_dict[course_id] = item
 
     # 课程学分绩点＝课程绩点 × 课程学分
