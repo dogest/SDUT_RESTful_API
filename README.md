@@ -2,9 +2,11 @@
 
 一些有关于 SDUT 的 API 封装
 
-## 官方微信小程序“抽空查询”已上线
+## 官方微信·小程序“抽空查询”已上线
 
 ![抽空查询](inquire.jpg)
+
+GitHub: <https://github.com/dogest/inquire>
 
 ## Usage
 
