@@ -70,6 +70,7 @@ async def index(request: Request):
 @app.route('/user/token', methods=['POST'])
 async def token(request: Request):
     """ 登录，获取 cookies，创建 token，存入数据库并返回 """
+    raise Unauthorized('因接到学校网络中心通知，本小程序涉及非法使用，因此主动停止提供服务，开发者将尽快向网络中心申请使用授权。本服务代码开源 https://github.com/dogest/SDUT_RESTful_API ，服务器端没有保存任何用户敏感信息，欢迎用户审查监督。')
     username = request.form.get('username') or request.json.get('username')
     password = request.form.get('password') or request.json.get('password')
     x_referer = request.headers.get('X-Referer', 'Unknown')
