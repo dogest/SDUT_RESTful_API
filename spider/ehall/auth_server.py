@@ -11,15 +11,22 @@ from spider.ua import ua
 def auth_server_dump_cookies(session: aiohttp.ClientSession) -> dict:
     """ 导出 AuthServer 的 Cookies """
     cookies = {}
-    for _key, cookie in session.cookie_jar.filter_cookies('http://authserver.sdut.edu.cn').items():
-        cookies[cookie.key] = cookie.value
+    for cookie in session.cookie_jar:
+        cookies[cookie.key] = {
+            'key': cookie.key,
+            'value': cookie.value,
+            'path': cookie['path'],
+            'domain': cookie['domain'],
+        }
     return cookies
 
 
 def auth_server_load_cookies(session: aiohttp.ClientSession, cookies: dict):
     """ 导入 Authserver 的 Cookies """
-    session.cookie_jar.update_cookies(
-        cookies, URL('http://authserver.sdut.edu.cn'))
+    for key, cookie in cookies.items():
+        if cookie['domain'].startswith('authserver.sdut.edu.cn'):
+            session.cookie_jar.update_cookies(
+                {key: cookie['value']}, URL(f'http://authserver.sdut.edu.cn{cookie["path"]}'))
 
 
 async def auth_server(session: aiohttp.ClientSession, username: str, password: str):
@@ -41,6 +48,9 @@ async def auth_server(session: aiohttp.ClientSession, username: str, password: s
     for ipt in ipts:
         if ipt.get('value'):
             data[ipt.get('name')] = ipt.get('value')
+
+    for i in session.cookie_jar:
+        print(i)
 
     JSESSIONID_auth = cookies.get('JSESSIONID_auth').value
 
@@ -78,16 +88,3 @@ async def auth_server(session: aiohttp.ClientSession, username: str, password: s
     else:
         print(url)
         raise ServerError('发生意料之外的错误，如果问题持续出现，请联系作者。')
-
-
-if __name__ == '__main__':
-    import os
-    loop = asyncio.get_event_loop()
-    tasks = [
-        asyncio.ensure_future(auth_server(
-            aiohttp.ClientSession(),
-            os.environ.get('username'),
-            os.environ.get('password')))
-    ]
-    loop.run_until_complete(asyncio.wait(tasks))
-    loop.close()
