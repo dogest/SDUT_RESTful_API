@@ -20,7 +20,7 @@ from spider.dormitory.health import get_dorm_info_by_health
 from spider.ehall import auth_ehall
 from spider.ehall.auth_server import auth_server, auth_server_dump_cookies
 from spider.library.borrow import borrow
-from spider.public.energy import energy
+from spider.dormitory.energy import energy as ehall_energy
 from spider.schedule.courses import courses
 from spider.schedule.schedule import courses as schedule_courses
 from spider.score import score as stu_score
@@ -36,12 +36,14 @@ app.blueprint(ex)
 async def init(app, loop):
     app.config.redis = await aioredis.create_redis_pool('redis://localhost', loop=loop)
 
+
 @app.middleware('request')
 async def request_middleware(request: Request):
     # 默认等待一会儿以防止请求过快，减少被封禁的风险
     # 删除此处可能会导致账号被秒封
     if env_config('ASYNC') is None:
         time.sleep(random.randint(250, 2500) / 1000)
+
 
 @app.listener('after_server_stop')
 async def finish(app, loop):
@@ -72,7 +74,8 @@ async def token(request: Request):
     """ 登录，获取 cookies，创建 token，存入数据库并返回 """
     userid = request.args.get('userid')
     if userid is None:
-        raise Unauthorized('接到学校网络中心通知，本小程序涉及非法使用，因此主动停止提供服务，使用权限的申请请求已被拒绝，因此本程序将无限期停止服务。请不要继续尝试登录！也请务必不要再向外传播！谢谢同学们！')
+        raise Unauthorized(
+            '接到学校网络中心通知，本小程序涉及非法使用，因此主动停止提供服务，使用权限的申请请求已被拒绝，因此本程序将无限期停止服务。请不要继续尝试登录！也请务必不要再向外传播！谢谢同学们！')
     username = request.form.get('userid') or request.json.get('userid')
     password = request.form.get('password') or request.json.get('password')
     x_referer = request.headers.get('X-Referer', 'Unknown')
@@ -189,12 +192,13 @@ async def score(request: Request):
 
 
 @app.route('/dormitory/energy', methods=['POST'])
-@app.route('/public/energy', methods=['POST'])
 async def public_energy(request: Request):
     """ 查询电量 """
+    cookies = await get_cookies(request)
+
     floor = request.form.get('floor') or request.json.get('floor')
     room = request.form.get('room') or request.json.get('room')
-    data = await energy(floor, room)
+    data = await ehall_energy(cookies, floor, room)
     return success(data=data)
 
 

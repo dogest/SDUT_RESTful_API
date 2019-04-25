@@ -1,34 +1,10 @@
-import asyncio
 from datetime import datetime
 
 import aiohttp
 from bs4 import BeautifulSoup
 from sanic.exceptions import Unauthorized
 
-
-async def login(session: aiohttp.ClientSession):
-    """ 登录到后勤服务平台 """
-    # 获取预置在页面上的参数
-    async with session.get('http://hqfw.sdut.edu.cn/login.aspx') as resp:
-        text = await resp.text()
-
-    soup = BeautifulSoup(text, 'html.parser')
-    ipts = soup.find_all('input')
-    data = {}
-    for ipt in ipts:
-        if ipt.get('value'):
-            data[ipt.get('name')] = ipt.get('value')
-    data['ctl00$MainContent$txtName'] = '刘大钰'
-    data['ctl00$MainContent$txtID'] = '15110572023'
-    data.pop('ctl00$MainContent$btnCancel')
-
-    async with session.post('http://hqfw.sdut.edu.cn/login.aspx', data=data) as resp:
-        text = await resp.text()
-
-    # 如果没有登录成功，则触发异常
-    if f'欢迎您,刘大钰同学' not in text:
-        raise Unauthorized(
-            message='用户名或学号错误！如果您见到这个报错，说明我们的内部账号出错，请联系项目作者以进行修改。')
+from spider.ehall.auth_ehall import auth_ehall
 
 
 async def do_search(session: aiohttp.ClientSession, floor: str, room: str):
@@ -76,21 +52,16 @@ async def do_search(session: aiohttp.ClientSession, floor: str, room: str):
     return rdata
 
 
-async def energy(floor: str, room: str):
-    """
-    查询宿舍剩余电量
-    Usage: energy('06#', '627')
-    """
-    async with aiohttp.ClientSession(loop=asyncio.get_event_loop()) as session:
-        await login(session)
+async def energy(cookies: dict, floor: str, room: str):
+    """ 获取宿舍电量 """
+    async with aiohttp.ClientSession() as session:
+        await auth_ehall(session, cookies)
+
+        async with session.get(f'http://hqfw.sdut.edu.cn/login_ehall.aspx') as resp:
+            text = await resp.text()
+
+        if '"lklogin">[欢迎您,' not in text:
+            raise Unauthorized('登录失败，可能是\n1. 登录凭证过期\n2. 您主动退出了登录\n3. 您修改了账号密码')
         data = await do_search(session, floor, room)
 
     return data
-
-if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    tasks = [
-        asyncio.ensure_future(energy('06#', '627'))
-    ]
-    loop.run_until_complete(asyncio.wait(tasks))
-    loop.close()
