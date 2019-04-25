@@ -44,13 +44,16 @@ async def auth_server(session: aiohttp.ClientSession, username: str, password: s
     }
     headers = {
         'User-Agent': ua.random,
+        'Referer': 'http://authserver.sdut.edu.cn/authserver/login',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'Host': 'authserver.sdut.edu.cn',
+        'Origin': 'http://authserver.sdut.edu.cn',
     }
     for ipt in ipts:
         if ipt.get('value'):
             data[ipt.get('name')] = ipt.get('value')
-
-    for i in session.cookie_jar:
-        print(i)
 
     JSESSIONID_auth = cookies.get('JSESSIONID_auth').value
 
