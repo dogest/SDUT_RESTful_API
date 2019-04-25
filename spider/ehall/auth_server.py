@@ -76,6 +76,7 @@ async def auth_server(session: aiohttp.ClientSession, username: str, password: s
     elif url == 'http://authserver.sdut.edu.cn/authserver/pcImproveInfo.do':
         raise Forbidden('需要修改初始密码后使用')
     else:
+        print(url)
         raise ServerError('发生意料之外的错误，如果问题持续出现，请联系作者。')
 
 
