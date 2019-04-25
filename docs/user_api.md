@@ -22,14 +22,14 @@
 
 | 参数 | 类型 | 含义 |
 | ---- | ---- | - |
-| `username` | string | 用户名（学号） |
+| `userid` | string | 用户名（学号） |
 | `password` | string | 密码 |
 
 
 **请求示例**
 
 ```bash
-curl http://<url>/user/token --request POST --form 'username=<username>' --form 'password=<password>'
+curl http://<url>/user/token --request POST --form 'userid=<userid>' --form 'password=<password>'
 ```
 
 **返回参数**
@@ -43,7 +43,9 @@ curl http://<url>/user/token --request POST --form 'username=<username>' --form 
 ```json
 {
     "error": false,
-    "token": "SDUTAPI_aaaa-bbbb-cccc-dddd"
+    "data": {
+        "token": "SDUTAPI_aaaa-bbbb-cccc-dddd"
+    }
 }
 ```
 

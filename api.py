@@ -73,7 +73,7 @@ async def token(request: Request):
     userid = request.args.get('userid')
     if userid is None:
         raise Unauthorized('接到学校网络中心通知，本小程序涉及非法使用，因此主动停止提供服务，使用权限的申请请求已被拒绝，因此本程序将无限期停止服务。请不要继续尝试登录！也请务必不要再向外传播！谢谢同学们！')
-    username = request.form.get('username') or request.json.get('username')
+    username = request.form.get('userid') or request.json.get('userid')
     password = request.form.get('password') or request.json.get('password')
     x_referer = request.headers.get('X-Referer', 'Unknown')
 
