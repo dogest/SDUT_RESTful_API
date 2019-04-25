@@ -1,6 +1,6 @@
 import aiohttp
 from bs4 import BeautifulSoup
-from sanic.exceptions import Forbidden, Unauthorized
+from sanic.exceptions import Forbidden, ServerError, Unauthorized
 
 from spider.ehall.auth_ehall import auth_ehall
 from spider.ehall.auth_server import auth_server_load_cookies
@@ -73,6 +73,8 @@ async def borrow(cookies: dict):
         if '当前登录用户不允许访问目标应用' in text:
             raise Forbidden('当前登录用户不允许访问目标应用')
         if url != 'http://222.206.65.12/reader/redr_info.php':
+            if '?ticket=' in url:
+                raise ServerError('认证错误，请重试')
             print(url)
             raise Unauthorized('登录凭证已失效。')
 

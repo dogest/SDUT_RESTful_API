@@ -1,7 +1,8 @@
-import aiohttp
-from sanic.exceptions import Unauthorized
-import time
 import json
+import time
+
+import aiohttp
+from sanic.exceptions import ServerError, Unauthorized
 
 from spider.ehall.auth_server import auth_server, auth_server_load_cookies
 
@@ -17,6 +18,8 @@ async def auth_ehall(session: aiohttp.ClientSession, cookies: dict):
     if url == 'http://ehall.sdut.edu.cn/new/ehall.html':
         return True
     else:
+        if '?ticket=' in url:
+            raise ServerError('认证错误，请重试')
         print(url)
         raise Unauthorized('登录失败，可能是\n1. 登录凭证过期\n2. 您主动退出了登录\n3. 您修改了账号密码')
 
