@@ -73,6 +73,7 @@ async def borrow(cookies: dict):
         if '当前登录用户不允许访问目标应用' in text:
             raise Forbidden('当前登录用户不允许访问目标应用')
         if url != 'http://222.206.65.12/reader/redr_info.php':
+            print(url)
             raise Unauthorized('登录凭证已失效。')
 
         data = {}

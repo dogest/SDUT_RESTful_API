@@ -17,6 +17,7 @@ async def auth_ehall(session: aiohttp.ClientSession, cookies: dict):
     if url == 'http://ehall.sdut.edu.cn/new/ehall.html':
         return True
     else:
+        print(url)
         raise Unauthorized('登录失败，可能是\n1. 登录凭证过期\n2. 您主动退出了登录\n3. 您修改了账号密码')
 
 
