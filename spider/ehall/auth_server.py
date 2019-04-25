@@ -42,15 +42,7 @@ async def auth_server(session: aiohttp.ClientSession, username: str, password: s
         'password': password,
         'rememberMe': 'on',  # 七天内记住我
     }
-    headers = {
-        'User-Agent': ua.random,
-        'Referer': 'http://authserver.sdut.edu.cn/authserver/login',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-        'Accept-Encoding': 'gzip, deflate',
-        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-        'Host': 'authserver.sdut.edu.cn',
-        'Origin': 'http://authserver.sdut.edu.cn',
-    }
+
     for ipt in ipts:
         if ipt.get('value'):
             data[ipt.get('name')] = ipt.get('value')
@@ -60,7 +52,7 @@ async def auth_server(session: aiohttp.ClientSession, username: str, password: s
     # 提交登录
     # 山东理工大学统一登录平台有一处 Set-Cookie 错误，Python 没有对错误的格式进行兼容
     # 手动处理第一次跳转，处理格式兼容
-    async with session.post(f'http://authserver.sdut.edu.cn/authserver/login;{JSESSIONID_auth}', data=data, headers=headers, allow_redirects=False) as resp:
+    async with session.post(f'http://authserver.sdut.edu.cn/authserver/login;{JSESSIONID_auth}', data=data, allow_redirects=False) as resp:
         headers = resp.headers
 
         next_url = headers.get('Location')

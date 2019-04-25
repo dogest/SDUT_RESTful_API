@@ -16,14 +16,15 @@ from exception import ex
 from spider.card import balance, consume, summary
 from spider.dormitory import health as dorm_health
 from spider.dormitory import info as dorm_info
+from spider.dormitory.energy import energy as ehall_energy
 from spider.dormitory.health import get_dorm_info_by_health
 from spider.ehall import auth_ehall
 from spider.ehall.auth_server import auth_server, auth_server_dump_cookies
 from spider.library.borrow import borrow
-from spider.dormitory.energy import energy as ehall_energy
 from spider.schedule.courses import courses
 from spider.schedule.schedule import courses as schedule_courses
 from spider.score import score as stu_score
+from spider.ua import headers
 from utils import env_config, error, success
 
 app = Sanic(__name__)
@@ -80,7 +81,7 @@ async def token(request: Request):
     password = request.form.get('password') or request.json.get('password')
     x_referer = request.headers.get('X-Referer', 'Unknown')
 
-    async with aiohttp.ClientSession(loop=asyncio.get_event_loop()) as session:
+    async with aiohttp.ClientSession(headers=headers,loop=asyncio.get_event_loop()) as session:
         # 登录至 AuthServer，如果登录失败则会触发登录失败 401
         await auth_server(session, username, password)
         cookies = auth_server_dump_cookies(session)
