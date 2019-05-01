@@ -22,6 +22,17 @@ async def courses(cookies: dict, year: str, semester: str):
     return data
 
 
+def sort_schedule(raw_data: list) -> list:
+    """ 按照上课时间对课程排序 """
+    return sorted(
+        raw_data,
+        key=lambda item: (
+            int(item['day_of_week']),
+            int(item['duration_of_class'].split('-')[0])
+        )
+    )
+
+
 def fields_map(raw_data: dict) -> dict:
     """ 将教务管理系统的拼音字段转换为英文字段 """
     data = {}
@@ -30,19 +41,20 @@ def fields_map(raw_data: dict) -> dict:
     for item in raw_data['kbList']:
         t = {}
         t['duration_of_class'] = item['jcor']
-        t['duration_of_week'] = item['zcd']
+        t['duration_of_week'] = item['zcd'].replace('周', '')
         t['classroom'] = item['cdmc']
         t['class_name'] = item['kcmc']
         t['day_of_week'] = item['xqj']
         t['teacher_name'] = item['xm']
         data['schedule'].append(t)
+    data['schedule'] = sort_schedule(data['schedule'])
 
     data['extra'] = []
     for item in raw_data['sjkList']:
         t = {}
         t['class_name'] = item['kcmc']
         t['teacher_name'] = item['xm']
-        t['duration_of_week'] = item['qsjsz']
+        t['duration_of_week'] = item['qsjsz'].replace('周', '')
         data['extra'].append(t)
 
     data['note'] = []
