@@ -55,11 +55,11 @@ def list_duration_range(duration_str: str) -> list:
         durations = duration_str.split(',')
     else:
         durations = [duration_str]
-    # 判断是否为单双周的课程
     for item in durations:
         if '-' not in item:
             rlist.append(int(item))
             continue
+        # 判断是否为单双周的课程
         if '(单)' in item:
             item = item[:-3]
             l, r = [int(x) for x in item.split('-')]
