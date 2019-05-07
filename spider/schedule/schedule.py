@@ -75,7 +75,7 @@ def list_duration_range(duration_str: str) -> list:
         else:
             l, r = [int(x) for x in item.split('-')]
             rlist += list(range(int(l), int(r) + 1))
-    return rlist
+    return sorted(rlist)
 
 
 def fields_map(raw_data: dict) -> dict:
