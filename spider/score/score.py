@@ -115,5 +115,12 @@ async def score(cookies: dict, userid: str):
     return {
         'grade': make_grade(score_data),
         'message': '绩点仅供参考，如果需要确切的值请自行计算。',
-        'scores': score_data,
+        'scores': sorted(
+            score_data,
+            key=lambda item: (
+                item['school_year'],  # 首先按学年排序
+                item['semester'],  # 其次按学期排序
+                float(item['score']),  # 然后按课程学分排序
+                float(item['point'])  # 最后按用户得分排序
+            ))[::-1],
     }
