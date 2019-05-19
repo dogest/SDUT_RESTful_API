@@ -38,14 +38,6 @@ async def init(app, loop):
     app.config.redis = await aioredis.create_redis_pool('redis://localhost', loop=loop)
 
 
-@app.middleware('request')
-async def request_middleware(request: Request):
-    # 默认等待一会儿以防止请求过快，减少被封禁的风险
-    # 删除此处可能会导致账号被秒封
-    if env_config('ASYNC') is None:
-        time.sleep(random.randint(250, 2500) / 1000)
-
-
 @app.listener('after_server_stop')
 async def finish(app, loop):
     # loop.run_until_complete(app.config.redis.close())
@@ -81,7 +73,7 @@ async def token(request: Request):
     password = request.form.get('password') or request.json.get('password')
     x_referer = request.headers.get('X-Referer', 'Unknown')
 
-    async with aiohttp.ClientSession(headers=headers,loop=asyncio.get_event_loop()) as session:
+    async with aiohttp.ClientSession(headers=headers, loop=asyncio.get_event_loop()) as session:
         # 登录至 AuthServer，如果登录失败则会触发登录失败 401
         await auth_server(session, username, password)
         cookies = auth_server_dump_cookies(session)
