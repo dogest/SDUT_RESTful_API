@@ -9,9 +9,23 @@ async def auth_edu_manage(session: aiohttp.ClientSession, cookies: dict):
     # 载入 Cookies
     auth_server_load_cookies(session, cookies)
 
-    async with session.get('http://210.44.191.125/jwglxt/jziotlogin') as resp:
-        url = str(resp.url)
+    async with session.get('http://210.44.191.125/sso/jziotlogin', allow_redirects=False) as resp:
+        next_url = resp.headers.get('Location')
+
+    async with session.get(next_url, allow_redirects=False) as resp:
+        next_url = resp.headers.get('Location')
+    async with session.get(next_url, allow_redirects=False) as resp:
+        next_url = resp.headers.get('Location')
+    async with session.get(next_url, allow_redirects=False) as resp:
+        next_url = resp.headers.get('Location')
+    async with session.get(next_url, allow_redirects=False) as resp:
+        next_url = resp.headers.get('Location')
+    async with session.get('http://210.44.191.125' + next_url, allow_redirects=False) as resp:
+        next_url = resp.headers.get('Location')
+    async with session.get('http://210.44.191.125' + next_url, allow_redirects=False) as resp:
+        next_url = resp.headers.get('Location')
         text = await resp.text()
+        url = str(resp.url)
 
     if '当前登录用户不允许访问目标应用' in text:
         raise Forbidden('当前登录用户不允许访问目标应用')
